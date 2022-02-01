@@ -9,10 +9,10 @@ class IconContent extends StatelessWidget {
 
   IconContent(
       {@required this.icon,
-      this.iconSize,
       this.text,
       this.textColor,
-      this.textSize});
+      this.iconSize = 80.0,
+      this.textSize = 18.0});
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,13 @@ const bottomContainerHeight = 80.0;
 const defaultBoxColor = Color(0xFF1D1E33);
 const bottomContainerCollor = Color(0xFFEB1555);
 const iconTextColor = Color(0xFF8D8E98);
+const inactiveCodeColor = Color(0xFF111328);
+const activeCodeColor = Color(0xFF1D1E33);
+
+enum Gender {
+  MALE,
+  FEMALE,
+}
 
 class InputPage extends StatefulWidget {
   @override
@@ -14,6 +21,27 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = inactiveCodeColor;
+  Color femaleCardColor = inactiveCodeColor;
+
+  void updateColor(Gender selectedGender) {
+    if (selectedGender == Gender.MALE) {
+      if (maleCardColor == inactiveCodeColor) {
+        maleCardColor = activeCodeColor;
+        femaleCardColor = inactiveCodeColor;
+      } else {
+        maleCardColor = inactiveCodeColor;
+        femaleCardColor = activeCodeColor;
+      }
+    } else if (femaleCardColor == inactiveCodeColor) {
+      femaleCardColor = activeCodeColor;
+      maleCardColor = inactiveCodeColor;
+    } else {
+      femaleCardColor = inactiveCodeColor;
+      maleCardColor = activeCodeColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,26 +54,36 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: ReuseableCode(
-                    color: defaultBoxColor,
-                    cardChild: IconContent(
-                      icon: FontAwesomeIcons.mars,
-                      iconSize: 80.0,
-                      text: "Male",
-                      textSize: 18.0,
-                      textColor: iconTextColor,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateColor(Gender.MALE);
+                      });
+                    },
+                    child: ReuseableCode(
+                      color: maleCardColor,
+                      cardChild: IconContent(
+                        icon: FontAwesomeIcons.mars,
+                        text: "MALE",
+                        textColor: iconTextColor,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ReuseableCode(
-                    color: defaultBoxColor,
-                    cardChild: IconContent(
-                      icon: FontAwesomeIcons.venus,
-                      iconSize: 80.0,
-                      text: "FEMALE",
-                      textSize: 18.0,
-                      textColor: iconTextColor,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateColor(Gender.FEMALE);
+                      });
+                    },
+                    child: ReuseableCode(
+                      color: femaleCardColor,
+                      cardChild: IconContent(
+                        icon: FontAwesomeIcons.venus,
+                        text: "FEMALE",
+                        textColor: iconTextColor,
+                      ),
                     ),
                   ),
                 ),
