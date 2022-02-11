@@ -1,9 +1,11 @@
+import 'package:bmi_calculator/screens/ResultPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'Constans.dart';
-import 'IconContent.dart';
-import 'ReuseableCode.dart';
+import '../CalculatorBrain.dart';
+import '../components/Constans.dart';
+import '../components/IconContent.dart';
+import '../components/ReuseableCode.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InputPage extends StatefulWidget {
@@ -227,20 +229,22 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/result');
-            },
-            child: Center(
-              child: Container(
-                child: Text('Calculate!!!'),
-                color: keyBottomContainerCollor,
-                margin: EdgeInsets.only(top: 10.0),
-                width: double.infinity,
-                height: keyBottomContainerHeight,
-              ),
-            ),
-          )
+          CalculateButtom(
+              textButton: "Calculate",
+              page: () {
+                CalculaterBrain calculaterBrain = CalculaterBrain(
+                    wight: wight.toDouble(), hight: hight.toDouble());
+                calculaterBrain.calculatingBmi();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                      indexBmi: calculaterBrain.calculatingBmi(),
+                      resultBmi: calculaterBrain.getBMICategory(),
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
     );
